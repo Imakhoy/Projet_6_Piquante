@@ -1,9 +1,10 @@
 // Importer Express
 const express = require('express');
-// Importer Mongoose
-const mongoose = require('mongoose');
+
 // Importer path
 const path = require('path');
+
+const User = require('./models/user');
 
 // Importer les routeurs
 // const userRoutes = require('./routes/user');
@@ -12,12 +13,7 @@ const path = require('path');
 // Créer application Express
 const app = express();
 
-// Connecter Mongoose avec route MongoDB
-mongoose.connect("mongodb+srv://dbHeba:Mar_4569129@cluster0.zbkll.mongodb.net/?retryWrites=true&w=majority",
-{ useNewUrlParser: true,
-  useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
 
 // CORS
 app.use((req, res, next) => {
@@ -37,5 +33,3 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // app.use('/api/auth', userRoutes);
 // app.use('/api/sauces', sauceRoutes);
 
-// Exporter application (accès depuis les autres fichiers)
-module.exports = app;
