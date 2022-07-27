@@ -4,8 +4,6 @@ const userCtrl = require('../controllers/userControllers'); //the controller to 
 
 //Routers 
 router.post('/signup',userCtrl.signup);
-//router.post('/login', userCtrl.login);
-
 router.post('/login', userCtrl.login)
 
 

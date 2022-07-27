@@ -1,4 +1,5 @@
-//Importer et declarer
+require('dotenv').config(); //Import du package dotenv
+
 const express = require('express');// Importer Express
 const mongoose = require('mongoose');// Importer Mongoose
 const bodyParser = require('body-parser');

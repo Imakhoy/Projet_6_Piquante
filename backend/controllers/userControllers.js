@@ -2,8 +2,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');//npm install bcrypt
 const jwt = require('jsonwebtoken');//npm install jsonwebtoken
-const dotenv = require("dotenv");
-dotenv.config();
+
 //Controllers pour créer un compte
 //Mettre en place le saltage en plus du hasage :
 exports.signup = (req, res, next) =>  {
@@ -25,7 +24,7 @@ exports.signup = (req, res, next) =>  {
   }
 
   //Controllers pour se connecter au site
-  /*exports.login = (req, res, next) => {
+  exports.login = (req, res, next) => {
     const email= req.body.email
     
     User.findOne({ email: req.body.email })
@@ -50,5 +49,5 @@ exports.signup = (req, res, next) =>  {
     })
     .catch(error => res.status(500).json({ error }));
 
-    };*/
+    };
 
