@@ -3,6 +3,8 @@ const http = require('http');
 
 // Importer application Express
 const app = require('./app');
+// Importation du module dotenv pour utiliser les variables d'environnement écrites dans le  fichier .env dans le répertoire racine du dossier backend
+require("dotenv").config();
 
 // Renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 const normalizePort = val => {

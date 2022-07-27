@@ -1,31 +1,16 @@
-// Importer Express
-const express = require('express');
+//Importer et declarer
+const express = require('express');// Importer Express
+const mongoose = require('mongoose');// Importer Mongoose
+const bodyParser = require("body-parser");
+const path = require('path');// Importer path
 
-// Importer path
-const path = require('path');
+const userRoutes = require('./routes/userRoute');// Importer les routeurs
+const sauceRoutes = require('./routes/sauceRoute');// Importer les routeurs
 
-const User = require('./models/user');
+//on appelle express avec cette const et qui permet de créer l'application express
+const app = express();// Créer application Express
 
-// Importer les routeurs
-const userRoutes = require('./routes/userRoute');
-const sauceRoutes = require('./routes/sauceRoute');
-
-// Créer application Express
-const app = express();
-
-
-
-// CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
-    next();
-});
-
-// Importer Mongoose
-const mongoose = require('mongoose');
-
+//DATABASE
 // Connecter Mongoose avec route MongoDB
 mongoose.connect("mongodb+srv://dbHeba:Mar_4569129@cluster0.zbkll.mongodb.net/?retryWrites=true&w=majority",
 { useNewUrlParser: true,
@@ -34,14 +19,21 @@ mongoose.connect("mongodb+srv://dbHeba:Mar_4569129@cluster0.zbkll.mongodb.net/?r
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 
+// CORS ==> Cross Origin Ressource Sharing
+//Import du middleware qui permet d'accéder à l'API avec les méthodes pour envoyer les requêtes
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
+  next();
+});
+
 // Parser
-// express prend toutes les requêtes qui ont comme content-type application/json et met à disposition leur body  directement sur l'objet req
-app.use(express.json());
+app.use(express.json()); // express prend toutes les requêtes qui ont comme content-type application/json et met à disposition leur body  directement sur l'objet req
+app.use(bodyParser.json()); // Middleware pour gérer les posts venant du front end
 
-// Enregistrer les routeurs
 // Rendre dossier images static
-app.use('/images', express.static(path.join(__dirname, 'images')));
-
+app.use('/', express.static(path.join(__dirname, 'images')));
 
 //Route générale "./routes/sauceRoute.js" pour la création, la modification et suppression des sauces
 app.use('/api/sauces', sauceRoutes);
@@ -50,6 +42,5 @@ app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 
-//Exportation
 // Exporter application (accès depuis les autres fichiers)
 module.exports = app;
