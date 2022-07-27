@@ -1,6 +1,6 @@
 
-const Sauce = require("../models/sauce");
-const fs = require("fs"); //module fs pour “File System”.Package pour accéder et interagir avec le système de fichiers
+const Sauce = require('../models/sauce');
+const fs = require('fs'); //module fs pour “File System”.Package pour accéder et interagir avec le système de fichiers
 
 //Création d'une nouvelle sauce
 exports.createSauce = (req, res, next) => {

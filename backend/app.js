@@ -5,13 +5,9 @@ const bodyParser = require('body-parser');
 const path = require('path');// Importer path
 const app = express();// Créer application Express
 
-//const port = 3000
-//const cors = require ('cors');
-//app.listen(port,() => console.log("listening on port" + port))
-//app.use(cors())
-
 const userRoutes = require('./routes/userRoute');// Importer les routeurs
 const sauceRoutes = require('./routes/sauceRoute');// Importer les routeurs
+
 
 //DATABASE
 // Connecter Mongoose avec route MongoDB
