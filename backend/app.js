@@ -1,14 +1,17 @@
 //Importer et declarer
 const express = require('express');// Importer Express
 const mongoose = require('mongoose');// Importer Mongoose
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
 const path = require('path');// Importer path
+const app = express();// Créer application Express
+
+//const port = 3000
+//const cors = require ('cors');
+//app.listen(port,() => console.log("listening on port" + port))
+//app.use(cors())
 
 const userRoutes = require('./routes/userRoute');// Importer les routeurs
 const sauceRoutes = require('./routes/sauceRoute');// Importer les routeurs
-
-//on appelle express avec cette const et qui permet de créer l'application express
-const app = express();// Créer application Express
 
 //DATABASE
 // Connecter Mongoose avec route MongoDB
