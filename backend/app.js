@@ -9,6 +9,7 @@ const app = express();// Créer application Express
 const userRoutes = require('./routes/userRoute');// Importer les routeurs
 const sauceRoutes = require('./routes/sauceRoute');// Importer les routeurs
 
+const helmet = require('helmet');
 
 //DATABASE
 // Connecter Mongoose avec route MongoDB
@@ -27,6 +28,9 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS')
   next();
 });
+
+// Sécurise les headers
+app.use(helmet());
 
 // Parser
 app.use(express.json()); // express prend toutes les requêtes qui ont comme content-type application/json et met à disposition leur body  directement sur l'objet req

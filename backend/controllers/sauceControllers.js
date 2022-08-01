@@ -1,4 +1,3 @@
-
 const Sauce = require('../models/sauce');
 const fs = require('fs'); //module fs pour “File System”.Package pour accéder et interagir avec le système de fichiers
 
@@ -13,8 +12,8 @@ exports.createSauce = (req, res, next) => {
     }`,
     likes: 0,
     dislikes: 0,
-    usersLiked: [" "],
-    usersdisLiked: [" "],
+    usersLiked: [''],
+    usersdisLiked: [''],
   });
   //enregister la sauce dans la base de donnée en appelant la méthode save
   sauce
@@ -36,7 +35,7 @@ exports.modifySauces = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
         .catch(error => res.status(400).json({ error }));
 };
-// Controllers por effacer une sauce grâce a l'ID
+// Controllers pour effacer une sauce grâce a l'ID
 exports.deleteSauces = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -50,18 +49,19 @@ exports.deleteSauces = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
     
 };
-// Controllers pour afficher une sauce grâce a l'ID
-exports.getOneSauce = (req, res, next) => {
-  Sauce.findOne({ _id: req.params.id })
-      .then(sauce => res.status(200).json(sauce))
-      .catch(error => res.status(404).json({ error }));
-};
+
 // Controllers pour afficher toutes les sauces
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(400).json({ error }));
 }
+// Controllers pour afficher une sauce grâce a l'ID
+exports.getOneSauce = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+      .then(sauce => res.status(200).json(sauce))
+      .catch(error => res.status(404).json({ error }));
+};
 
 ///api/sauces/:id/like
 //like and dislike 
