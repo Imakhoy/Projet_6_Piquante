@@ -3,8 +3,7 @@ const router = express.Router();// La méthode express.Router() permet de créer
 const userCtrl = require('../controllers/userControllers'); //the controller to associate the functions to the different routes
 
 //Routers 
-router.post('/signup',userCtrl.signup);
+router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login)
-
 
 module.exports = router;// on exporte le router

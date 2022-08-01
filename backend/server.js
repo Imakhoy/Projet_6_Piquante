@@ -1,8 +1,13 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 // Importer package Node HTTP
 const http = require('http');
 
 // Importer application Express
 const app = require('./app');
+
+const PORT = process.env.PORT;
 
 // Renvoie un port valide, qu'il soit fourni sous la forme d'un numéro ou d'une chaîne
 const normalizePort = val => {
@@ -18,7 +23,7 @@ const normalizePort = val => {
 };
 
 // Indiquer le port à l'application
-const port = normalizePort('3000');
+const port = normalizePort(PORT);
 app.set('port', port);
 
 // Recherche les différentes erreurs et les gère de manière appropriée

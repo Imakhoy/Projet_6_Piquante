@@ -1,4 +1,4 @@
-const multer = require('multer');
+const multer = require("multer");
 
 // Objet indiquant la nature et le format d'un document et le relier à une extension de fichier
 const MIME_TYPES = {
@@ -7,7 +7,6 @@ const MIME_TYPES = {
     "image/png": "png",
   };
 
-//Middleware 
 // constante storage qui contient la fonction .diskStorage passer à multer
 //pour lui indiquer où enregistrer les fichiers entrants
 const storage = multer.diskStorage({

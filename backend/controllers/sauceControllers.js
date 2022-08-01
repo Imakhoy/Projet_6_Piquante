@@ -22,7 +22,7 @@ exports.createSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-/// Controllers pour modifier une sauce
+//Modification sauce
 exports.modifySauces = (req, res, next) => {
   const sauceObject = req.file ?
   {
@@ -35,7 +35,7 @@ exports.modifySauces = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
         .catch(error => res.status(400).json({ error }));
 };
-// Controllers pour effacer une sauce grâce a l'ID
+//Supression sauce
 exports.deleteSauces = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
@@ -50,47 +50,60 @@ exports.deleteSauces = (req, res, next) => {
     
 };
 
-// Controllers pour afficher toutes les sauces
+//Affichage de toutes les sauces
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(400).json({ error }));
 }
-// Controllers pour afficher une sauce grâce a l'ID
+//Affichage d'une seul sauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
       .then(sauce => res.status(200).json(sauce))
       .catch(error => res.status(404).json({ error }));
 };
 
-///api/sauces/:id/like
-//like and dislike 
+//LIKE/DISLIKE SAUCE
 exports.likeSauce = (req, res, next) => {
-  const like = req.body.like;
   const userId = req.body.userId;
+  const like = req.body.like;
   const sauceId = req.params.id;
-  if(like === 1){
-      Sauce.updateOne({ _id: sauceId } ,{ $inc: { likes: 1 }, $push: { usersLiked: userId }})
-          .then( () => res.status(200).json({ message: 'Like ajouté !' }))
-          .catch(error => res.status(400).json({ error }));
-  }else if(like === -1){
-      Sauce.updateOne({ _id: sauceId } ,{ $inc: { dislikes: 1 }, $push: { usersDisliked: userId }})
-          .then( () => res.status(200).json({ message: 'Dislike ajouté !' }))
-          .catch(error => res.status(400).json({ error }));
-  }else{
-      Sauce.findOne({ _id: sauceId })
-          .then(sauce => {
-              if (sauce.usersLiked.includes(userId)) {
-                  Sauce.updateOne({ _id: sauceId }, { $inc: { likes: -1 }, $pull: { usersLiked: userId } })
-                      .then(() => { res.status(200).json({ message: 'Like supprimé !' }) })
-                      .catch(error => res.status(400).json({ error }))
-              } else if (sauce.usersDisliked.includes(userId)) {
-                  Sauce.updateOne({ _id: sauceId }, { $inc: { dislikes: -1 }, $pull: { usersDisliked: userId } })
-                      .then(() => { res.status(200).json({ message: 'Dislike supprimé !' }) })
-                      .catch(error => res.status(400).json({ error }))
-              }
-          })
-          .catch(error => res.status(400).json({ error }))
-  }
-
-}
+  Sauce.findOne({ _id: sauceId })
+      .then(sauce => {
+          // nouvelles valeurs à modifier
+          const newValues = {
+              usersLiked: sauce.usersLiked,
+              usersDisliked: sauce.usersDisliked,
+              likes: 0,
+              dislikes: 0
+          }
+          // Différents cas:
+          switch (like) {
+              case 1:  // CAS: sauce liked
+                  newValues.usersLiked.push(userId);
+                  break;
+              case -1:  // CAS: sauce disliked
+                  newValues.usersDisliked.push(userId);
+                  break;
+              case 0:  // CAS: Annulation du like/dislike
+                  if (newValues.usersLiked.includes(userId)) {
+                      // si on annule le like
+                      const index = newValues.usersLiked.indexOf(userId);
+                      newValues.usersLiked.splice(index, 1);
+                  } else {
+                      // si on annule le dislike
+                      const index = newValues.usersDisliked.indexOf(userId);
+                      newValues.usersDisliked.splice(index, 1);
+                  }
+                  break;
+          };
+          // Calcul du nombre de likes / dislikes
+          newValues.likes = newValues.usersLiked.length;
+          newValues.dislikes = newValues.usersDisliked.length;
+          // Mise à jour de la sauce avec les nouvelles valeurs
+          Sauce.updateOne({ _id: sauceId }, newValues )
+              .then(() => res.status(200).json({ message: 'Sauce notée !' }))
+              .catch(error => res.status(400).json({ error }))  
+      })
+      .catch(error => res.status(500).json({ error }));
+};
