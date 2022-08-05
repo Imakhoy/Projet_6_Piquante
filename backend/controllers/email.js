@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
     return mongooseError(
       res.status(403).json({
         message:
-          "Erreur: L'adresse e-mail n'est pas conforme ex: contact@adresse.com !",
+          "Erreur: L'adresse e-mail n'est pas conforme ex: support@adresse.com !",
       })
     );
   } else {
