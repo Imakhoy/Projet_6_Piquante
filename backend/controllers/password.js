@@ -1,5 +1,5 @@
 // importation de password validator, pour exiger la création de MDP sécurisés
-const passwordValidator = require("password-validator");
+const passwordValidator = require('password-validator');
 // Création du schema pour un MDP valide
 const passwordSchema = new passwordValidator();
 // configuration du schéma du mot de passe (caractéristiques exigées)

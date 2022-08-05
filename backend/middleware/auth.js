@@ -1,3 +1,4 @@
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -11,7 +12,7 @@ module.exports = (req, res, next) => {
     } else {
       next();
     }
-  } catch {
+  }catch {
     res.status(403).json({
       error: new Error('unauthorized request')
     });
