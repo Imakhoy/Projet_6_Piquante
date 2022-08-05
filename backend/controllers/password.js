@@ -1,25 +1,22 @@
-// importation de password validator, pour exiger la création de MDP sécurisés
+//Importer password-validator
 const passwordValidator = require('password-validator');
-// Création du schema pour un MDP valide
+//Schema un MDP valide
 const passwordSchema = new passwordValidator();
 // configuration du schéma du mot de passe (caractéristiques exigées)
 passwordSchema
 .is().min(6)
-.is().max(100)
+.is().max(80)
 .has().uppercase(1)
 .has().lowercase()
 .has().digits(1)
 .has().not().spaces()
-.is().not().oneOf(['1234', 'azeqsd','4321']);
+.is().not().oneOf(['Password123','1234', 'azeqsd','4321', 'aqwzsx']);
 
 
-// exportation de la fonction de validation du MDP créé par rapport au schema
 module.exports = (req, res, next) => {
-        // Vérification du mdp choisi par rapport au schema
     if(passwordSchema.validate(req.body.password)){
         next();
     }else{
-            //affichage de la liste d'erreurs de format de mdp
         return res
         .status(400)
         .json({error: `Mot de passe invalide ${passwordSchema.validate(req.body.password, {list: true})}`})
