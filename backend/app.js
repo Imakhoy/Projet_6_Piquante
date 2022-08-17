@@ -1,10 +1,11 @@
-const dotenv = require("dotenv");
+const dotenv = require('dotenv');
 dotenv.config();
 
 const express = require('express');// Importer Express
 const mongoose = require('mongoose');// Importer Mongoose
 const bodyParser = require('body-parser');
-const path = require('path');// Importer path
+const path = require('path'); 
+
 const app = express();// Créer application Express
 
 const userRoutes = require('./routes/userRoute');// Importer les routeurs
@@ -32,14 +33,23 @@ app.use((req, res, next) => {
 
 // Sécurise les headers
 app.use(helmet());
-
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } },
+{ crossOriginOpenerPolicy: { policy: "cross-origin" } }))
+// Rendre dossier images static
+app.use('/', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+/*
+app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } },
+{ crossOriginOpenerPolicy: { policy: "cross-origin" } })) */
 // Parser
 app.use(express.json()); // express prend toutes les requêtes qui ont comme content-type application/json et met à disposition leur body  directement sur l'objet req
 app.use(bodyParser.json()); // Middleware pour gérer les posts venant du front end
 
+/*
 // Rendre dossier images static
 app.use('/', express.static(path.join(__dirname, 'images')));
-
+app.use('/images', express.static(path.join(__dirname, 'images'))); */
 //Route générale "./routes/sauceRoute.js" pour la création, la modification et suppression des sauces
 app.use('/api/sauces', sauceRoutes);
 
@@ -49,3 +59,4 @@ app.use('/api/auth', userRoutes);
 
 // Exporter application (accès depuis les autres fichiers)
 module.exports = app;
+
