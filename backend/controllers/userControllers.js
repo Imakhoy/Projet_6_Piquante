@@ -1,4 +1,3 @@
-
 const User = require('../models/user');
 const bcrypt = require('bcrypt');//npm install bcrypt
 const jwt = require('jsonwebtoken');//npm install jsonwebtoken
@@ -25,7 +24,6 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   })
 };
-
   //Controllers pour se connecter au site
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })

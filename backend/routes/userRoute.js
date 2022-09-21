@@ -6,10 +6,10 @@ const email = require("../middleware/email");
 const password = require("../middleware/password");
 
 
-//Routers 
+//Routers
+router.post('/login', limit.limiter, userCtrl.login);
 router.post('/signup', email, password, userCtrl.signup);
 
-router.post('/login', limit.limiter, userCtrl.login);
-
-
 module.exports = router;// on exporte le router
+
+

@@ -22,6 +22,4 @@ filename: (req, file, callback) => {
 });
 
 //Exportation
-// LA méthode single()  crée un middleware qui capture les fichiers d'un certain type (passé en argument),
-// et les enregistre au système de fichiers du serveur à l'aide du storage configuré
 module.exports = multer({ storage: storage }).single("image");

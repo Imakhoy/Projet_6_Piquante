@@ -2,7 +2,7 @@
 const passwordValidator = require('password-validator');
 //Schema un MDP valide
 const passwordSchema = new passwordValidator();
-// configuration du schéma du mot de passe (caractéristiques exigées)
+// configuration du schéma du mot de passe
 passwordSchema
 .is().min(6)
 .is().max(80)
@@ -11,7 +11,6 @@ passwordSchema
 .has().digits(1)
 .has().not().spaces()
 .is().not().oneOf(['Password123','1234', 'azeqsd','4321', 'aqwzsx']);
-
 
 module.exports = (req, res, next) => {
     if(passwordSchema.validate(req.body.password)){
